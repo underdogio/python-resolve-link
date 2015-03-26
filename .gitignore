@@ -1,0 +1,4 @@
+*.pyc
+build/
+dist/
+resolve_link.egg-info
