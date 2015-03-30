@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='resolve_link',
-    version='1.0.0',
+    version='1.0.1',
     description='Resolve complete/partial URLs against a canonical target URL',
     long_description=open('README.rst').read(),
     keywords=[
