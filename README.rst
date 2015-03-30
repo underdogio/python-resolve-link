@@ -1,8 +1,8 @@
 resolve-link
 ============
 
-.. image:: https://travis-ci.org/twolfson/resolve-link.png?branch=master
-   :target: https://travis-ci.org/twolfson/resolve-link
+.. image:: https://travis-ci.org/underdogio/resolve-link.png?branch=master
+   :target: https://travis-ci.org/underdogio/resolve-link
    :alt: Build Status
 
 Resolve complete/partial URLs against a canonical target URL
