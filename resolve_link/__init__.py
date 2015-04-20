@@ -1,12 +1,24 @@
 # Load in our dependencies
 import re
+import sys
 try:
     from urlparse import urlsplit, urlunsplit
 except ImportError:
     from urllib.parse import urlsplit, urlunsplit
 
+
 # Define our constants
 TLD_REGEXP = r'\.([a-zA-Z]*?)$'
+# Via https://hg.python.org/cpython/file/2.7/Lib/urlparse.py#l317
+PY3 = sys.version_info[0] == 3
+try:
+    unicode
+except NameError:
+    def _is_unicode(x):
+        return 0
+else:
+    def _is_unicode(x):
+        return isinstance(x, unicode)
 
 
 # Define our library
@@ -17,6 +29,12 @@ def resolve_link(src_url, target_url):
     :param str target_url: Canonical URL to try to match if on the same domain
     :returns str ret_val: Completed URL formatted via `urllib.parse`
     """
+    # If the `src_url` is encoded, decode it
+    encoding = None
+    if _is_unicode(src_url):
+        encoding = 'latin-1'
+        src_url = src_url.encode(encoding)
+
     # Parse the src URL
     src_url_parts = urlsplit(src_url)
 
@@ -60,7 +78,14 @@ def resolve_link(src_url, target_url):
           src_url_dict['scheme'] = target_url_parts.scheme
           src_url_dict['netloc'] = target_url_parts.netloc
 
-    # Return the completed src URL
+    # Construct the completed src URL
     # https://docs.python.org/2/library/urlparse.html#urlparse.urlsplit
-    return urlunsplit((src_url_dict['scheme'], src_url_dict['netloc'], src_url_dict['path'],
-                       src_url_dict['query'], src_url_dict['fragment']))
+    ret_url = urlunsplit((src_url_dict['scheme'], src_url_dict['netloc'], src_url_dict['path'],
+                         src_url_dict['query'], src_url_dict['fragment']))
+
+    # If we were originally encoded, re-encode us
+    if encoding:
+        ret_url = ret_url.decode(encoding)
+
+    # Return our URL
+    return ret_url

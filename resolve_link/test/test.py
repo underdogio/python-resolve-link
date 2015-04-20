@@ -70,3 +70,14 @@ class ResolveLinkTestCase(unittest.TestCase):
         """
         result = resolve_link('underdogio', 'https://github.com/')
         self.assertEqual(result, 'https://github.com/underdogio')
+
+    def test_unicode_username(self):
+        """
+        A unicode username to our target site when resolved
+            has no errors
+            points to the username on the target site
+
+        This is a regression test for https://github.com/underdogio/python-resolve-link/issues/2
+        """
+        result = resolve_link(u'underdogi\xf5', 'https://github.com/')
+        self.assertEqual(result, u'https://github.com/underdogi\xf5')
