@@ -71,9 +71,9 @@ class ResolveLinkTestCase(unittest.TestCase):
         result = resolve_link('underdogio', 'https://github.com/')
         self.assertEqual(result, 'https://github.com/underdogio')
 
-    def test_unicode_username(self):
+    def test_latin_1_username(self):
         """
-        A unicode username to our target site when resolved
+        A latin-1 username to our target site when resolved
             has no errors
             points to the username on the target site
 
@@ -81,3 +81,21 @@ class ResolveLinkTestCase(unittest.TestCase):
         """
         result = resolve_link(u'underdogi\xf5', 'https://github.com/')
         self.assertEqual(result, u'https://github.com/underdogi\xf5')
+
+    def test_unicode_username(self):
+        """
+        A unicode username to our target site when resolved
+            has no errors
+            points to the username on the target site
+        """
+        result = resolve_link(u'underdogi\ue0a4', 'https://github.com/')
+        self.assertEqual(result, u'https://github.com/underdogi\ue0a4')
+
+    def test_unicode_netloc(self):
+        """
+        A unicode net location when resolved
+            has no errors
+            points to the same location
+        """
+        result = resolve_link(u'http://www.\ue0a4.com/', 'https://github.com/')
+        self.assertEqual(result, u'http://www.\ue0a4.com/')

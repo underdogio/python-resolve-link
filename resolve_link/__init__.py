@@ -32,7 +32,7 @@ def resolve_link(src_url, target_url):
     # If the `src_url` is encoded, decode it
     encoding = None
     if _is_unicode(src_url):
-        encoding = 'latin-1'
+        encoding = 'utf-8'
         src_url = src_url.encode(encoding)
 
     # Parse the src URL
